@@ -1,5 +1,3 @@
-import { HeroSpotlight } from '@/components/HeroSpotlight';
-import { HeroVisual } from '@/components/HeroVisual';
 import { MagneticLink } from '@/components/MagneticLink';
 import { SplitWords } from '@/components/SplitWords';
 import { hero, site } from '@/content/site';
@@ -7,20 +5,25 @@ import { delayStyle } from '@/lib/browser';
 
 export function Hero() {
   return (
-    <HeroSpotlight>
-      <div className="container hero-grid">
-        <div className="hero-text">
-          <p className="eyebrow" data-reveal>
-            <span className="dot" aria-hidden="true" /> {site.availability}
+    <section id="top" className="hero">
+      <div className="container">
+        <div className="hero-copy">
+          <p className="kicker" data-reveal>
+            <span className="dot" aria-hidden="true" />
+            {site.availability}
           </p>
 
-          <SplitWords segments={hero.headline} />
+          <p className="greeting" data-reveal style={delayStyle(120)}>
+            {hero.greeting}
+          </p>
 
-          <p className="lead" data-reveal style={delayStyle(350)}>
+          <SplitWords segments={hero.headline} className="display" />
+
+          <p className="lead" data-reveal style={delayStyle(400)}>
             {hero.lead}
           </p>
 
-          <div className="cta-row" data-reveal style={delayStyle(450)}>
+          <div className="cta-row" data-reveal style={delayStyle(500)}>
             <MagneticLink href="#work" className="btn btn-primary">
               View my work
             </MagneticLink>
@@ -28,26 +31,26 @@ export function Hero() {
               Start a project
             </MagneticLink>
           </div>
-
-          <ul className="stats" data-reveal style={delayStyle(550)}>
-            {hero.stats.map((stat) => (
-              <li key={stat.label}>
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </li>
-            ))}
-          </ul>
         </div>
-
-        <HeroVisual>
-          {hero.cards.map((card) => (
-            <div key={card.label} className={`float-card ${card.className}`}>
-              <small>{card.label}</small>
-              {card.value}
-            </div>
-          ))}
-        </HeroVisual>
       </div>
-    </HeroSpotlight>
+
+      <div className="container hero-foot" data-reveal style={delayStyle(650)}>
+        <ul className="hero-stats">
+          {hero.stats.map((stat) => (
+            <li key={stat.label}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="hero-meta">
+          {hero.badges.map((badge) => (
+            <span key={badge.label}>
+              {badge.label}: <strong>{badge.value}</strong>
+            </span>
+          ))}
+        </p>
+      </div>
+    </section>
   );
 }

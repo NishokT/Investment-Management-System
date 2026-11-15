@@ -6,7 +6,6 @@
  */
 
 export type Segment = { text: string; accent?: boolean };
-export type Tone = 'indigo' | 'sunset' | 'mint';
 
 export const site = {
   name: 'Your Name',
@@ -34,20 +33,21 @@ export const nav = [
 ] as const;
 
 export const hero = {
+  greeting: "Hi, I'm Your Name",
   headline: [
-    { text: "Hi, I'm " },
-    { text: 'Your Name', accent: true },
-    { text: '. I design and build websites that work.' },
+    { text: 'Websites that ' },
+    { text: 'work.', accent: true },
   ] satisfies Segment[],
-  lead: 'I help small businesses and startups launch clear, fast and accessible digital products, from first sketch to live site.',
+  lead: 'I design and build fast, clear websites and brands for small businesses and startups, from first sketch to live site.',
   stats: [
     { value: 'XX+', label: 'Projects delivered' },
     { value: 'X+', label: 'Years of experience' },
     { value: 'XX%', label: 'Clients who come back' },
   ],
-  cards: [
-    { label: 'Response time', value: 'Within 24 hours', className: 'fc-1' },
-    { label: 'Core stack', value: 'Next.js · React · Three.js', className: 'fc-2' },
+  badges: [
+    { label: 'Response time', value: 'Within 24 hours' },
+    { label: 'Based in', value: site.location },
+    { label: 'Working', value: 'Remote, worldwide' },
   ],
 } as const;
 
@@ -89,7 +89,7 @@ export const services = {
     {
       title: 'Immersive 3D & motion',
       summary: 'Interactive 3D scenes and animations that make a first impression and keep visitors exploring.',
-      points: ['Three.js hero scenes', 'Product visualisations', 'Scroll-driven motion'],
+      points: ['Three.js scenes', 'Product visualisations', 'Scroll-driven motion'],
     },
   ],
 } as const;
@@ -104,18 +104,13 @@ export const work = {
       tags: ['Web design', 'Development'],
       summary:
         'Mobile-first site with an updated menu and online table booking. Describe the client, your role and the result here.',
-      tone: 'indigo' as Tone,
-      media: 'Café website',
       caseStudy: '#contact',
-      live: '#contact',
     },
     {
       title: 'Fintech Dashboard',
       tags: ['UI/UX', 'Product design'],
       summary:
         'Simplified an analytics dashboard and cut the time to find key reports. Add the measurable outcome here.',
-      tone: 'sunset' as Tone,
-      media: 'Dashboard UI',
       caseStudy: '#contact',
     },
     {
@@ -123,8 +118,6 @@ export const work = {
       tags: ['Branding', '3D'],
       summary:
         'Logo, colour palette and a 3D brand world for a creative studio launching its first brand. Add the result here.',
-      tone: 'mint' as Tone,
-      media: 'Brand identity',
       caseStudy: '#contact',
     },
   ],
@@ -137,7 +130,7 @@ export const approach = {
     { title: 'Discover', summary: 'We talk through your goals, audience and what success looks like.' },
     { title: 'Plan', summary: 'I outline scope, timeline and price before any work starts.' },
     { title: 'Build', summary: "Design and development with regular previews, so you're never guessing." },
-    { title: 'Launch', summary: "I test on every device, go live and hand over everything you need." },
+    { title: 'Launch', summary: 'I test on every device, go live and hand over everything you need.' },
   ],
 } as const;
 
@@ -150,14 +143,12 @@ export const testimonials = {
         'Replace this with a real quote from a client. Specific results, like faster load times or more enquiries, land best.',
       name: 'Client Name',
       role: 'Founder, Company',
-      initials: 'CN',
     },
     {
       quote:
         'Replace this with a second client quote. Keep it short, honest and about the working experience as well as the result.',
       name: 'Client Name',
       role: 'Marketing Lead, Company',
-      initials: 'CN',
     },
   ],
 } as const;

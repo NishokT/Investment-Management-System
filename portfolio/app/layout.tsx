@@ -1,16 +1,18 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import type { ReactNode } from 'react';
 import './globals.css';
 import { site } from '@/content/site';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { ParticleStage } from '@/components/ParticleStage';
 import { ScrollProgress } from '@/components/ScrollProgress';
 import { RevealObserver } from '@/components/RevealObserver';
 
-// Fonts are downloaded at build time and served from this site, so there is no
-// third-party request at runtime and no layout shift from late-loading fonts.
+// Fonts are downloaded at build time and served from this site, so there are no
+// third-party font requests at runtime and no layout shift from late-loading fonts.
 const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
+const display = Space_Grotesk({ subsets: ['latin'], display: 'swap', variable: '--font-display' });
 
 const title = `${site.name} · ${site.role}`;
 
@@ -46,13 +48,13 @@ export const viewport: Viewport = {
   initialScale: 1,
   colorScheme: 'light dark',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#fafaf7' },
-    { media: '(prefers-color-scheme: dark)', color: '#0c0e13' },
+    { media: '(prefers-color-scheme: light)', color: '#efefe9' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0b0c' },
   ],
 };
 
-// Runs before first paint: marks JavaScript as available (so reveal animations
-// can hide elements) and applies the visitor's saved theme without a flash.
+// Runs before first paint: marks JavaScript as available (so reveal animations can
+// hide elements) and applies the visitor's saved theme without a flash.
 const themeInit = `(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){r.setAttribute('data-theme',t)}}catch(e){}})();`;
 
 const personJsonLd = {
@@ -67,7 +69,7 @@ const personJsonLd = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${display.variable}`} suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <script
@@ -77,6 +79,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a className="skip-link" href="#main">
           Skip to content
         </a>
+        <ParticleStage />
         <ScrollProgress />
         <Header />
         {children}

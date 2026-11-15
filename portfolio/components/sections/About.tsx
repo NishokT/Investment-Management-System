@@ -5,16 +5,16 @@ import { delayStyle } from '@/lib/browser';
 export function About() {
   return (
     <section className="section" id="about" aria-labelledby="about-title">
-      <div className="container split">
-        <SectionHeading id="about-title" eyebrow={about.eyebrow} title={about.title} />
+      <div className="container about-grid">
+        <SectionHeading index="01" id="about-title" eyebrow={about.eyebrow} title={about.title} />
 
-        <div className="split-copy" data-reveal style={delayStyle(120)}>
+        <div className="about-copy" data-reveal style={delayStyle(120)}>
           {about.paragraphs.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>
           ))}
 
-          <h3>{about.toolsTitle}</h3>
-          <ul className="chips">
+          <p className="label">{about.toolsTitle}</p>
+          <ul className="tools">
             {about.tools.map((tool) => (
               <li key={tool}>{tool}</li>
             ))}

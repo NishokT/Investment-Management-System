@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const FALLBACK = '#5b5bf0';
+const FALLBACK = '#d4ff3a';
 
 /**
  * Reads the --accent design token so the 3D scene always matches the site's colour,
@@ -10,21 +10,21 @@ export function useAccent(): string {
   const [accent, setAccent] = useState(FALLBACK);
 
   useEffect(() => {
-    const read = () => {
+    const update = () => {
       const value = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-      if (value) setAccent(value);
+      setAccent(value || FALLBACK);
     };
-    read();
+    update();
 
-    const observer = new MutationObserver(read);
+    const observer = new MutationObserver(update);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-    systemDark.addEventListener('change', read);
+    systemDark.addEventListener('change', update);
 
     return () => {
       observer.disconnect();
-      systemDark.removeEventListener('change', read);
+      systemDark.removeEventListener('change', update);
     };
   }, []);
 

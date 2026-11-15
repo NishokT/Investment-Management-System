@@ -5,6 +5,8 @@ const nextConfig = {
   output: 'export',
   reactStrictMode: true,
   poweredByHeader: false,
+  // Static export has no image optimisation server, so next/image serves files as-is.
+  images: { unoptimized: true },
 };
 
 export default nextConfig;

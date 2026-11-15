@@ -4,22 +4,27 @@ import { delayStyle } from '@/lib/browser';
 
 export function Contact() {
   return (
-    <section className="section alt" id="contact" aria-labelledby="contact-title">
-      <div className="container contact-grid">
-        <div className="contact-copy" data-reveal>
-          <p className="eyebrow">{contact.eyebrow}</p>
-          <h2 id="contact-title">{contact.title}</h2>
-          <p className="lead">{contact.lead}</p>
+    <section className="section" id="contact" aria-labelledby="contact-title">
+      <div className="container">
+        <p className="section-label" data-reveal>
+          <span>06</span>
+          {contact.eyebrow}
+        </p>
 
-          <ul className="contact-list">
-            <li>
-              <a href={`mailto:${site.email}`}>{site.email}</a>
-            </li>
-            <li>{site.location} · Working with clients worldwide</li>
-          </ul>
-        </div>
+        <h2 id="contact-title" className="mega" data-reveal style={delayStyle(100)}>
+          {contact.title}
+        </h2>
 
-        <div data-reveal style={delayStyle(150)}>
+        <a className="mega-link" href={`mailto:${site.email}`} data-reveal style={delayStyle(200)}>
+          {site.email}
+          <span aria-hidden="true">↗</span>
+        </a>
+
+        <p className="section-lead" data-reveal style={delayStyle(260)}>
+          {contact.lead} {site.location} · Working with clients worldwide.
+        </p>
+
+        <div data-reveal style={delayStyle(320)}>
           <ContactForm />
         </div>
       </div>

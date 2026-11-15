@@ -1,17 +1,21 @@
 type Props = {
+  index: string;
   eyebrow: string;
   title: string;
   id: string;
   lead?: string;
-  center?: boolean;
 };
 
-export function SectionHeading({ eyebrow, title, id, lead, center = false }: Props) {
+/** Section title block: a numbered label above a large headline, with an optional lead line. */
+export function SectionHeading({ index, eyebrow, title, id, lead }: Props) {
   return (
-    <div className={center ? 'section-head center' : 'section-head'} data-reveal>
-      <p className="eyebrow">{eyebrow}</p>
+    <div className="section-head" data-reveal>
+      <p className="section-label">
+        <span>{index}</span>
+        {eyebrow}
+      </p>
       <h2 id={id}>{title}</h2>
-      {lead && <p>{lead}</p>}
+      {lead && <p className="section-lead">{lead}</p>}
     </div>
   );
 }
