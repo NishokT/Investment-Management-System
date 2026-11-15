@@ -5,7 +5,8 @@
  * Placeholders to replace: names, email, URL, stats, projects, testimonials.
  */
 
-export type Segment = { text: string; accent?: boolean };
+/** Part of a headline. `accent` gives it the gradient; `break` starts a new line after it. */
+export type Segment = { text: string; accent?: boolean; break?: boolean };
 export type Tone = 'blue' | 'violet' | 'midnight';
 export type IconName = 'web' | 'ux' | '3d';
 
@@ -48,7 +49,8 @@ export const nav = [
 export const hero = {
   greeting: "Hi, I'm Your Name",
   headline: [
-    { text: 'Websites that ' },
+    { text: 'Websites', break: true },
+    { text: 'that ' },
     { text: 'work.', accent: true },
   ] satisfies Segment[],
   lead: 'I design and build fast, polished websites and brands for small businesses and startups, from first sketch to launch.',
@@ -64,8 +66,17 @@ export const hero = {
   ],
 } as const;
 
+/** The two crossed bands that scroll sideways under the hero. */
+export const marquee = {
+  primary: ['Web design', 'Development', 'Interface design', '3D & motion', 'Brand identity', 'UX strategy'],
+  secondary: ['Figma', 'TypeScript', 'React', 'Next.js', 'Three.js', 'Tailwind CSS', 'Node.js', 'Git', 'Framer', 'Blender'],
+};
+
 export const about = {
   label: 'About',
+  // Large statement that lights up word by word as it scrolls into view
+  statement:
+    'I partner with founders and small teams to design and build websites that look sharp, load fast and turn visitors into customers. Every project starts with your goals and ends with something you are proud to show.',
   paragraphs: [
     "I'm Your Name, a freelance designer and developer based in [City]. [Add one or two sentences about how you got started and what you care about.]",
     "I work closely with founders and small teams. Every project starts with your goals and ends with something you're proud to show.",

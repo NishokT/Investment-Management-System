@@ -12,7 +12,7 @@ type Props = {
  * Screen readers get the full sentence via aria-label; the spans are hidden from them.
  */
 export function SplitWords({ segments, className }: Props) {
-  const label = segments.map((segment) => segment.text).join('');
+  const label = segments.map((segment) => segment.text).join(' ').replace(/\s+/g, ' ').trim();
   let index = 0;
 
   return (
@@ -28,12 +28,11 @@ export function SplitWords({ segments, className }: Props) {
             </span>
           );
         });
-        return segment.accent ? (
-          <span key={`seg-${segmentIndex}`} className="accent">
+        return (
+          <span key={`seg-${segmentIndex}`} className={segment.accent ? 'accent' : undefined}>
             {content}
+            {segment.break && <br />}
           </span>
-        ) : (
-          <span key={`seg-${segmentIndex}`}>{content}</span>
         );
       })}
     </h1>

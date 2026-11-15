@@ -6,7 +6,7 @@ import { prefersReducedMotion } from '@/lib/browser';
 type Props = { className: string; children: ReactNode };
 
 /**
- * A bento grid whose tiles light up softly around the cursor. It only reacts to the
+ * A grid whose tiles light up softly around the cursor. It only reacts to the
  * mouse, nothing moves on scroll, and it does nothing for touch or reduced motion.
  */
 export function SpotlightGrid({ className, children }: Props) {
@@ -21,7 +21,7 @@ export function SpotlightGrid({ className, children }: Props) {
   }
 
   return (
-    <div className={className} onPointerMove={onMove}>
+    <div className={`spotlight ${className}`} onPointerMove={onMove}>
       {children}
     </div>
   );

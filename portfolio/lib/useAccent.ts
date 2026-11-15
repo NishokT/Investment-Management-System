@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
-type ThemeColors = { accent: string; secondary: string };
+type ThemeColors = { accent: string; secondary: string; tertiary: string; dark: boolean };
 
-const FALLBACK: ThemeColors = { accent: '#4c7dff', secondary: '#a78bfa' };
+const FALLBACK: ThemeColors = { accent: '#4c7dff', secondary: '#a78bfa', tertiary: '#3fe0c5', dark: true };
 
 /**
- * Reads the --accent and --accent-2 design tokens so the 3D scene always matches the
+ * Reads the --accent, --accent-2 and --accent-3 design tokens so the 3D scene always matches the
  * site's colours, and updates when the visitor switches between dark and light mode.
  */
 export function useAccent(): ThemeColors {
@@ -13,10 +13,13 @@ export function useAccent(): ThemeColors {
 
   useEffect(() => {
     const update = () => {
-      const style = getComputedStyle(document.documentElement);
+      const root = document.documentElement;
+      const style = getComputedStyle(root);
       setColors({
         accent: style.getPropertyValue('--accent').trim() || FALLBACK.accent,
         secondary: style.getPropertyValue('--accent-2').trim() || FALLBACK.secondary,
+        tertiary: style.getPropertyValue('--accent-3').trim() || FALLBACK.tertiary,
+        dark: root.getAttribute('data-theme') !== 'light',
       });
     };
     update();

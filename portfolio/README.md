@@ -1,6 +1,6 @@
 # Freelance portfolio
 
-A premium, single-page portfolio in a bento-grid layout: black, electric blue and violet, with a calm 3D orb that stays inside its tile. It is built with **Next.js**, **React** and **TypeScript**, and pre-rendered to static HTML at build time, so it loads fast and can be hosted anywhere.
+A premium, single-page portfolio with a full-bleed layout: black, electric blue and violet, with a full-screen 3D hero scene. It is built with **Next.js**, **React** and **TypeScript**, and pre-rendered to static HTML at build time, so it loads fast and can be hosted anywhere.
 
 ## Stack
 
@@ -54,9 +54,11 @@ app/
   icon.svg          favicon
   not-found.tsx     404 page
 components/
-  sections/         Overview (intro bento), Work, Process, Testimonials, Contact
-  Orb.tsx           hosts the 3D orb with a static fallback
-  OrbScene.tsx      the 3D orb itself (client only, loaded on demand)
+  sections/         Hero, Marquee, Overview (statement + bento), Work, Process, Testimonials, Contact
+  HeroCanvas.tsx    hosts the 3D hero scene with a static fallback
+  HeroScene.tsx     the 3D scene itself: orb, particle disc, dust (client only, loaded on demand)
+  ScrollText.tsx    statement that lights up word by word on scroll
+  Wordmark.tsx      giant footer name that scales to the full width
   SpotlightGrid.tsx bento grid whose tiles glow softly around the cursor
   Icon.tsx          service icons
   SplitWords.tsx    word-by-word headline entrance
@@ -80,8 +82,8 @@ lib/
 ## Performance and accessibility
 
 - **Static HTML:** the page is pre-rendered, so text and layout arrive in the first response. The site also works with JavaScript turned off.
-- **Calm motion:** nothing moves while you scroll. The orb turns slowly inside its tile and only leans toward the cursor while you hover it. Tiles glow softly around the mouse pointer.
-- **Lazy 3D:** the 3D engine loads only after the page is interactive, pauses when off-screen and caps pixel density at 2x. If WebGL is unavailable, a gradient orb shows instead.
+- **Motion:** the hero scene drifts toward the cursor and ripples with fast movement, marquee bands scroll (pause on hover), the statement lights up on scroll and project cards stack. Tiles glow softly around the mouse pointer.
+- **Lazy 3D:** the 3D engine loads only after the page is interactive, pauses when off-screen and caps pixel density at 1.75x. If WebGL is unavailable, a gradient orb shows instead.
 - **Fonts:** Inter and Inter Tight are self-hosted at build time.
 - **Reduced motion:** visitors who prefer less motion get a still orb and no animations.
 - **Semantics:** one `h1`, labelled sections, a skip link and visible focus states.
