@@ -1,6 +1,5 @@
 /* ==========================================================================
-   Portfolio styles
-   Colours live in the tokens below. Change --accent to restyle the whole site.
+   Global styles. Colours are design tokens: change --accent to restyle the site.
    ========================================================================== */
 
 :root {
@@ -25,9 +24,9 @@
   color-scheme: light;
 }
 
-/* Dark mode: follows the system unless the visitor picked a theme explicitly */
+/* Dark mode follows the system unless the visitor picked a theme explicitly */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root:not([data-theme='light']) {
     --bg: #0c0e13;
     --surface: #151821;
     --surface-2: #1a1e28;
@@ -45,7 +44,7 @@
   }
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   --bg: #0c0e13;
   --surface: #151821;
   --surface-2: #1a1e28;
@@ -72,21 +71,34 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
+/* Subtle film grain for depth. Purely decorative, never intercepts clicks. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 img,
-svg {
+svg,
+canvas {
   display: block;
   max-width: 100%;
 }
@@ -101,6 +113,7 @@ h3 {
   line-height: 1.12;
   letter-spacing: -0.025em;
   margin: 0 0 0.5em;
+  text-wrap: balance;
 }
 
 h1 {
@@ -120,6 +133,7 @@ h3 {
 
 p {
   margin: 0 0 1em;
+  text-wrap: pretty;
 }
 
 ul,
@@ -173,7 +187,12 @@ ol {
   font-size: 0.98rem;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.35s var(--ease), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.35s ease;
+  transition:
+    transform 0.35s var(--ease),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.35s ease;
 }
 
 .btn-primary {
@@ -203,7 +222,7 @@ ol {
   font-size: 0.9rem;
 }
 
-/* Magnetic: JS sets --magnet-x / --magnet-y so the button leans toward the cursor */
+/* Magnetic: the component sets --magnet-x / --magnet-y so the element leans toward the cursor */
 .magnetic {
   transform: translate3d(var(--magnet-x, 0px), var(--magnet-y, 0px), 0);
 }
@@ -213,12 +232,15 @@ ol {
   place-items: center;
   width: 40px;
   height: 40px;
+  padding: 0;
   border: 1px solid var(--border);
   border-radius: 50%;
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.3s var(--ease);
+  transition:
+    border-color 0.2s ease,
+    transform 0.3s var(--ease);
 }
 
 .icon-btn:hover {
@@ -231,17 +253,29 @@ ol {
   height: 18px;
 }
 
-/* Show the moon in light mode and the sun in dark mode */
 .icon-btn .i-sun {
   display: none;
 }
 
-.icon-btn[data-dark="true"] .i-sun {
+.icon-btn[data-dark='true'] .i-sun {
   display: block;
 }
 
-.icon-btn[data-dark="true"] .i-moon {
+.icon-btn[data-dark='true'] .i-moon {
   display: none;
+}
+
+/* ---------- Scroll progress ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--accent), #f0abfc);
 }
 
 /* ---------- Header & navigation ---------- */
@@ -309,6 +343,7 @@ ol {
   position: relative;
   width: 40px;
   height: 40px;
+  padding: 0;
   border: 1px solid var(--border);
   border-radius: 50%;
   background: var(--surface);
@@ -349,7 +384,7 @@ ol {
   padding: clamp(48px, 9vw, 112px) 0 clamp(56px, 7vw, 96px);
 }
 
-/* Spotlight that follows the cursor */
+/* Spotlight that follows the cursor (set by HeroSpotlight) */
 .hero-glow {
   position: absolute;
   inset: 0;
@@ -419,7 +454,6 @@ ol {
   height: 8px;
   border-radius: 50%;
   background: var(--live);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--live) 22%, transparent);
   animation: pulse 2.4s ease-out infinite;
 }
 
@@ -433,8 +467,9 @@ ol {
   }
 }
 
-/* Word-by-word 3D reveal for the main heading (words are split by script.js) */
-.js .split-words .w {
+/* Word-by-word 3D entrance for the hero heading. Words are rendered by the server,
+   so the text is visible in the HTML before any JavaScript runs. */
+.split-words .w {
   display: inline-block;
   transform-origin: 50% 100%;
   animation: wordIn 1s var(--ease) both;
@@ -495,21 +530,26 @@ ol {
   max-width: 560px;
   aspect-ratio: 1 / 1;
   transform-style: preserve-3d;
-  /* Whole visual leans toward the cursor (--px / --py set by script.js) */
+  /* The whole visual leans toward the cursor (--px / --py inherited from the hero) */
   transform: perspective(1400px) rotateY(calc(var(--px, 0) * 9deg)) rotateX(calc(var(--py, 0) * -7deg));
   transition: transform 0.6s var(--ease);
 }
 
-.hero-canvas {
+.hero-canvas,
+.hero-canvas > div {
   position: absolute;
   inset: 0;
-  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-canvas canvas {
   width: 100%;
   height: 100%;
   outline: none;
 }
 
-/* Shown until the 3D scene is running (or if WebGL is unavailable) */
+/* Shown until the 3D scene is running, or always when WebGL is unavailable */
 .hero-fallback {
   position: absolute;
   inset: 12%;
@@ -521,7 +561,7 @@ ol {
   transform: translateZ(-30px);
 }
 
-.webgl-ready .hero-fallback {
+.hero-visual[data-ready='true'] .hero-fallback {
   display: none;
 }
 
@@ -642,7 +682,7 @@ ol {
   text-align: center;
 }
 
-.section-head p:not(.eyebrow) {
+.section-head > p:not(.eyebrow) {
   color: var(--muted);
   font-size: 1.05rem;
 }
@@ -658,12 +698,12 @@ ol {
   margin-bottom: 0;
 }
 
-.split > div:last-child > p {
+.split-copy > p {
   color: var(--muted);
   font-size: 1.05rem;
 }
 
-.split h3 {
+.split-copy h3 {
   margin-top: 2rem;
 }
 
@@ -681,7 +721,9 @@ ol {
   border-radius: 999px;
   background: var(--surface);
   font-size: 0.9rem;
-  transition: transform 0.3s var(--ease), border-color 0.3s ease;
+  transition:
+    transform 0.3s var(--ease),
+    border-color 0.3s ease;
 }
 
 .chips li:hover {
@@ -696,11 +738,16 @@ ol {
   gap: 24px;
 }
 
-.card {
-  padding: 32px;
+.card,
+.project,
+.quote {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
+}
+
+.card {
+  padding: 32px;
 }
 
 .card .num {
@@ -728,21 +775,26 @@ ol {
   margin: 0.25rem 0;
 }
 
-/* 3D tilt: JS sets --rx / --ry / --gx / --gy from the cursor position */
+/* 3D tilt. TiltCard sets --rx / --ry / --gx / --gy from the cursor position. */
 .tilt {
   position: relative;
   transform-style: preserve-3d;
   transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
-  transition: transform 0.6s var(--ease), box-shadow 0.5s ease, border-color 0.5s ease;
+  transition:
+    transform 0.6s var(--ease),
+    box-shadow 0.5s ease,
+    border-color 0.5s ease;
 }
 
-.tilt.is-tilting {
-  transition: transform 0.12s linear, box-shadow 0.4s ease;
+.tilt[data-tilting='true'] {
+  transition:
+    transform 0.12s linear,
+    box-shadow 0.4s ease;
 }
 
 /* Light glare that follows the cursor across the card */
 .tilt::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -769,12 +821,9 @@ ol {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
 }
 
-/* Gradient stand-in for a screenshot. Swap for <img> once you have real images. */
+/* Gradient stand-in for a screenshot. Swap for next/image once you have real images. */
 .project-media {
   position: relative;
   display: grid;
@@ -786,7 +835,7 @@ ol {
 }
 
 .project-media::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: -20%;
   background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.35), transparent 45%);
@@ -802,15 +851,15 @@ ol {
   backdrop-filter: blur(4px);
 }
 
-.m1 {
+.media-indigo {
   background: linear-gradient(135deg, #6366f1, #22d3ee);
 }
 
-.m2 {
+.media-sunset {
   background: linear-gradient(135deg, #f97316, #ec4899);
 }
 
-.m3 {
+.media-mint {
   background: linear-gradient(135deg, #10b981, #0ea5e9);
 }
 
@@ -872,7 +921,9 @@ ol {
 .steps li {
   padding-top: 20px;
   border-top: 2px solid var(--border);
-  transition: border-color 0.4s ease, transform 0.4s var(--ease);
+  transition:
+    border-color 0.4s ease,
+    transform 0.4s var(--ease);
 }
 
 .steps li:hover {
@@ -906,23 +957,19 @@ ol {
 }
 
 .quote {
-  margin: 0;
   padding: 34px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
 }
 
 .quote blockquote {
-  margin: 0;
+  margin: 0 0 1.25rem;
 }
 
-.quote p {
-  margin-bottom: 1.25rem;
+.quote blockquote p {
+  margin: 0;
   font-size: 1.1rem;
 }
 
-.quote figcaption {
+.quote-author {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -930,7 +977,7 @@ ol {
   font-size: 0.95rem;
 }
 
-.quote figcaption strong {
+.quote-author strong {
   display: block;
   color: var(--text);
 }
@@ -955,7 +1002,7 @@ ol {
   align-items: start;
 }
 
-.contact-grid .lead {
+.contact-copy .lead {
   margin-bottom: 0;
 }
 
@@ -1015,7 +1062,9 @@ ol {
   background: var(--bg);
   color: var(--text);
   font: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .field input:focus,
@@ -1076,15 +1125,26 @@ ol {
   color: var(--text);
 }
 
+/* ---------- 404 ---------- */
+.not-found {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  min-height: 70vh;
+  align-content: center;
+  padding-block: 80px;
+}
+
 /* ---------- Scroll reveal ----------
    Elements start hidden only when JavaScript is running (html.js),
-   so the page still shows everything with JS turned off. */
-.js .reveal:not(.in) {
+   so everything stays visible with JavaScript turned off. */
+.js [data-reveal]:not(.is-in) {
   opacity: 0;
 }
 
-.js .reveal.in {
+.js [data-reveal].is-in {
   animation: rise 0.9s var(--ease) backwards;
+  animation-delay: var(--d, 0ms);
 }
 
 @keyframes rise {
@@ -1226,20 +1286,19 @@ ol {
     transition-duration: 0.01ms !important;
   }
 
-  .js .reveal:not(.in) {
+  .js [data-reveal]:not(.is-in) {
     opacity: 1;
   }
 
-  .js .reveal.in,
-  .js .split-words .w {
+  .js [data-reveal].is-in,
+  .split-words .w {
     animation: none;
   }
 
-  .marquee-track {
-    animation: none;
-  }
-
-  .float-card {
+  .marquee-track,
+  .float-card,
+  .orb,
+  .dot {
     animation: none;
   }
 }
