@@ -1,18 +1,17 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { Inter, Inter_Tight } from 'next/font/google';
 import type { ReactNode } from 'react';
 import './globals.css';
 import { site } from '@/content/site';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { ParticleStage } from '@/components/ParticleStage';
 import { ScrollProgress } from '@/components/ScrollProgress';
 import { RevealObserver } from '@/components/RevealObserver';
 
 // Fonts are downloaded at build time and served from this site, so there are no
 // third-party font requests at runtime and no layout shift from late-loading fonts.
 const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
-const display = Space_Grotesk({ subsets: ['latin'], display: 'swap', variable: '--font-display' });
+const display = Inter_Tight({ subsets: ['latin'], display: 'swap', variable: '--font-display' });
 
 const title = `${site.name} · ${site.role}`;
 
@@ -46,15 +45,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#efefe9' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b0b0c' },
-  ],
+  colorScheme: 'dark light',
+  themeColor: '#050608',
 };
 
 // Runs before first paint: marks JavaScript as available (so reveal animations can
-// hide elements) and applies the visitor's saved theme without a flash.
+// hide elements) and applies a saved light-theme choice without a flash. Dark is the default.
 const themeInit = `(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){r.setAttribute('data-theme',t)}}catch(e){}})();`;
 
 const personJsonLd = {
@@ -79,7 +75,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <ParticleStage />
         <ScrollProgress />
         <Header />
         {children}

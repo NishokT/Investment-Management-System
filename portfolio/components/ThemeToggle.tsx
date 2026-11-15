@@ -2,23 +2,17 @@
 
 import { useEffect, useState } from 'react';
 
+/** Switches between the dark theme (the default) and the light theme, and remembers the choice. */
 export function ThemeToggle() {
   // null until mounted, so the server and first client render match
   const [dark, setDark] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const read = () => {
-      const explicit = document.documentElement.getAttribute('data-theme');
-      setDark(explicit ? explicit === 'dark' : systemDark.matches);
-    };
-    read();
-    systemDark.addEventListener('change', read);
-    return () => systemDark.removeEventListener('change', read);
+    setDark(document.documentElement.getAttribute('data-theme') !== 'light');
   }, []);
 
   function toggle() {
-    const next = dark ? 'light' : 'dark';
+    const next = dark === false ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', next);
     try {
       localStorage.setItem('theme', next);
@@ -28,7 +22,7 @@ export function ThemeToggle() {
     setDark(next === 'dark');
   }
 
-  const isDark = dark === true;
+  const isDark = dark !== false;
 
   return (
     <button

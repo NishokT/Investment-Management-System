@@ -1,32 +1,30 @@
 import { useEffect, useState } from 'react';
 
-const FALLBACK = '#d4ff3a';
+type ThemeColors = { accent: string; secondary: string };
+
+const FALLBACK: ThemeColors = { accent: '#4c7dff', secondary: '#a78bfa' };
 
 /**
- * Reads the --accent design token so the 3D scene always matches the site's colour,
- * and updates when the visitor switches between light and dark mode.
+ * Reads the --accent and --accent-2 design tokens so the 3D scene always matches the
+ * site's colours, and updates when the visitor switches between dark and light mode.
  */
-export function useAccent(): string {
-  const [accent, setAccent] = useState(FALLBACK);
+export function useAccent(): ThemeColors {
+  const [colors, setColors] = useState<ThemeColors>(FALLBACK);
 
   useEffect(() => {
     const update = () => {
-      const value = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-      setAccent(value || FALLBACK);
+      const style = getComputedStyle(document.documentElement);
+      setColors({
+        accent: style.getPropertyValue('--accent').trim() || FALLBACK.accent,
+        secondary: style.getPropertyValue('--accent-2').trim() || FALLBACK.secondary,
+      });
     };
     update();
 
     const observer = new MutationObserver(update);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-    systemDark.addEventListener('change', update);
-
-    return () => {
-      observer.disconnect();
-      systemDark.removeEventListener('change', update);
-    };
+    return () => observer.disconnect();
   }, []);
 
-  return accent;
+  return colors;
 }

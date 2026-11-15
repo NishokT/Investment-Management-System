@@ -6,6 +6,19 @@
  */
 
 export type Segment = { text: string; accent?: boolean };
+export type Tone = 'blue' | 'violet' | 'midnight';
+export type IconName = 'web' | 'ux' | '3d';
+
+export type Project = {
+  title: string;
+  tags: string[];
+  summary: string;
+  /** Colour of the preview panel when there is no screenshot yet */
+  tone: Tone;
+  /** Optional screenshot in public/, e.g. "/projects/cafe.jpg" */
+  image?: string;
+  caseStudy: string;
+};
 
 export const site = {
   name: 'Your Name',
@@ -17,7 +30,7 @@ export const site = {
   location: '[City, Country]',
   description:
     'Freelance web designer and developer building fast, accessible and memorable websites and brands for small businesses and startups.',
-  availability: 'Available for freelance projects',
+  availability: 'Available for new projects',
   socials: [
     { label: 'GitHub', href: 'https://github.com/your-handle' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/your-handle' },
@@ -38,93 +51,86 @@ export const hero = {
     { text: 'Websites that ' },
     { text: 'work.', accent: true },
   ] satisfies Segment[],
-  lead: 'I design and build fast, clear websites and brands for small businesses and startups, from first sketch to live site.',
+  lead: 'I design and build fast, polished websites and brands for small businesses and startups, from first sketch to launch.',
   stats: [
     { value: 'XX+', label: 'Projects delivered' },
     { value: 'X+', label: 'Years of experience' },
     { value: 'XX%', label: 'Clients who come back' },
   ],
-  badges: [
+  status: [
     { label: 'Response time', value: 'Within 24 hours' },
     { label: 'Based in', value: site.location },
     { label: 'Working', value: 'Remote, worldwide' },
   ],
 } as const;
 
-export const marquee = [
-  'Websites',
-  'Interfaces',
-  'Brand identity',
-  'Motion',
-  'Performance',
-  'Accessibility',
-] as const;
-
 export const about = {
-  eyebrow: 'About',
-  title: 'A bit about me',
+  label: 'About',
   paragraphs: [
     "I'm Your Name, a freelance designer and developer based in [City]. [Add one or two sentences about how you got started and what you care about.]",
-    "I work closely with founders, marketers and small teams. Every project starts with understanding your goals and ends with something you're proud to show.",
+    "I work closely with founders and small teams. Every project starts with your goals and ends with something you're proud to show.",
   ],
-  toolsTitle: 'Tools I work with',
+  toolsLabel: 'Tools I work with',
   tools: ['Figma', 'TypeScript', 'React', 'Next.js', 'Three.js', 'Tailwind CSS', 'Node.js', 'Git'],
 } as const;
 
-export const services = {
-  eyebrow: 'Services',
+export const services: {
+  label: string;
+  title: string;
+  items: { title: string; icon: IconName; summary: string }[];
+} = {
+  label: 'Services',
   title: 'How I can help',
-  lead: 'Focused services that turn ideas into finished, working products.',
   items: [
     {
       title: 'Website design & development',
-      summary: 'Custom, responsive websites built for speed, search visibility and easy updates.',
-      points: ['Landing pages', 'Business websites', 'Portfolios & personal sites'],
+      icon: 'web',
+      summary: 'Responsive websites built for speed, search visibility and easy updates.',
     },
     {
       title: 'Interface & UX design',
-      summary: 'Clear layouts and user flows that make it obvious what visitors should do next.',
-      points: ['Wireframes & prototypes', 'Design systems', 'Usability reviews'],
+      icon: 'ux',
+      summary: 'Clear layouts and flows that make it obvious what visitors should do next.',
     },
     {
       title: 'Immersive 3D & motion',
-      summary: 'Interactive 3D scenes and animations that make a first impression and keep visitors exploring.',
-      points: ['Three.js scenes', 'Product visualisations', 'Scroll-driven motion'],
+      icon: '3d',
+      summary: 'Interactive 3D and subtle animation that make a memorable first impression.',
     },
   ],
-} as const;
+};
 
-export const work = {
-  eyebrow: 'Selected work',
+export const work: { label: string; title: string; lead: string; items: Project[] } = {
+  label: 'Selected work',
   title: 'Recent projects',
   lead: "A few examples of how I've helped clients. Replace these with your own case studies.",
   items: [
     {
       title: 'Café Website Redesign',
       tags: ['Web design', 'Development'],
-      summary:
-        'Mobile-first site with an updated menu and online table booking. Describe the client, your role and the result here.',
+      summary: 'Mobile-first site with an updated menu and online booking. Add the client, your role and the result.',
+      tone: 'blue',
       caseStudy: '#contact',
     },
     {
       title: 'Fintech Dashboard',
       tags: ['UI/UX', 'Product design'],
-      summary:
-        'Simplified an analytics dashboard and cut the time to find key reports. Add the measurable outcome here.',
+      summary: 'Simplified an analytics dashboard so key reports are faster to find. Add the measurable outcome.',
+      tone: 'violet',
       caseStudy: '#contact',
     },
     {
       title: 'Studio Brand Identity',
       tags: ['Branding', '3D'],
-      summary:
-        'Logo, colour palette and a 3D brand world for a creative studio launching its first brand. Add the result here.',
+      summary: 'Logo, colour system and a 3D brand world for a creative studio. Add the result here.',
+      tone: 'midnight',
       caseStudy: '#contact',
     },
   ],
-} as const;
+};
 
 export const approach = {
-  eyebrow: 'How I work',
+  label: 'How I work',
   title: 'A simple, transparent process',
   steps: [
     { title: 'Discover', summary: 'We talk through your goals, audience and what success looks like.' },
@@ -135,7 +141,7 @@ export const approach = {
 } as const;
 
 export const testimonials = {
-  eyebrow: 'Kind words',
+  label: 'Kind words',
   title: 'What clients say',
   items: [
     {
@@ -143,20 +149,21 @@ export const testimonials = {
         'Replace this with a real quote from a client. Specific results, like faster load times or more enquiries, land best.',
       name: 'Client Name',
       role: 'Founder, Company',
+      initials: 'CN',
     },
     {
       quote:
         'Replace this with a second client quote. Keep it short, honest and about the working experience as well as the result.',
       name: 'Client Name',
       role: 'Marketing Lead, Company',
+      initials: 'CN',
     },
   ],
 } as const;
 
 export const contact = {
-  eyebrow: 'Contact',
-  title: "Let's build something together",
-  lead: 'Tell me a little about your project. I usually reply within one or two working days.',
+  title: "Let's build something great together",
+  lead: 'Tell me a little about your project. I usually reply within one working day.',
   projectTypes: ['Website', 'Web app', 'UI/UX design', 'Branding', '3D / motion', 'Something else'],
   budgets: ['Under $1,000', '$1,000 – $3,000', '$3,000 – $10,000', '$10,000+', 'Not sure yet'],
   note: 'Your email app will open with the message ready to send.',
