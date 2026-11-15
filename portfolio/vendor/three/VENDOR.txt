@@ -1,0 +1,2 @@
+Three.js r160 (v0.160.0), vendored from the npm package "three" for offline/CDN-free use.
+Modules: build/three.module.js, examples/jsm/environments/RoomEnvironment.js
